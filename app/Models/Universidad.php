@@ -14,4 +14,13 @@ class Universidad extends Model
         'nombre_universidad',
         'logo'
     ];
+
+
+    // relacion muchos a muchos con facultades en la tabla facultades_universidades
+
+    public function facultades()
+    {
+        return $this->belongsToMany(Facultad::class, 'facultades_universidades', 'id_universidad', 'id_facultad');
+    }
+    
 }

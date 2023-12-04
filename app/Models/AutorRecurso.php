@@ -21,6 +21,7 @@ class AutorRecurso extends Model
         return $this->belongsTo(Recurso::class, 'id_recurso');
     }
 
+    // realacion uno a muchos inversa con estudiante
     public function estudiante()
     {
         return $this->belongsTo(Estudiante::class, 'id_estudiante');

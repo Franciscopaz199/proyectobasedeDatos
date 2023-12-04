@@ -14,6 +14,7 @@ class ClaseCarrera extends Model
     protected $fillable = [
         'id_carrera',
         'id_clase',
+        
     ];
 
 

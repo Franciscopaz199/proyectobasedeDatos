@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('comentarios_autores', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_recurso_version');
-            $table->unsignedBigInteger('id_autor_recurso');
+            $table->unsignedBigInteger('id_estudiante');
             $table->string('titulo_comentario', 60);
             $table->string('contenido_comentario', 100);
             $table->timestamps();
 
             $table->foreign('id_recurso_version')->references('id')->on('recursos_versiones');
-            $table->foreign('id_autor_recurso')->references('id')->on('autores_recursos');
+            $table->foreign('id_estudiante')->references('id')->on('estudiantes');
 
         });
     }

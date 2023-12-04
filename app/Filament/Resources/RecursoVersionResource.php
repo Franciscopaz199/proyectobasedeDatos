@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\RecursoResource\Pages;
-use App\Filament\Resources\RecursoResource\RelationManagers;
-use App\Models\Recurso;
+use App\Filament\Resources\RecursoVersionResource\Pages;
+use App\Filament\Resources\RecursoVersionResource\RelationManagers;
+use App\Models\RecursoVersion;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,13 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-use App\Models\ClaseCarrera;
-use Filament\Forms\Components\Select;
-
-
-class RecursoResource extends Resource
+class RecursoVersionResource extends Resource
 {
-    protected static ?string $model = Recurso::class;
+    protected static ?string $model = RecursoVersion::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Recursos';
@@ -28,21 +24,21 @@ class RecursoResource extends Resource
     {
         return $form
             ->schema([
-               
-                Forms\Components\TextInput::make('titulo_recurso')
+                Forms\Components\TextInput::make('id_recurso')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('id_version_recurso')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('id_estado_recurso')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('enlace_descarga')
                     ->required()
                     ->maxLength(60),
-                Forms\Components\TextInput::make('fecha_subida')
+                Forms\Components\TextInput::make('descripcion')
                     ->required()
                     ->maxLength(60),
-
-                    Select::make('id_estudiante')
-                    ->relationship(name: 'autores', titleAttribute: 'numero_cuenta'),
-                    //->multiple()
-
-                    Select::make('id_clase_carrera')
-                    ->relationship(name: 'clase_carrera', titleAttribute: 'id'),
-                    //->multiple()
             ]);
     }
 
@@ -50,18 +46,18 @@ class RecursoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('clase_carrera.clase.nombre_clase')
+                Tables\Columns\TextColumn::make('recurso.titulo_recurso')
+                    ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('clase_carrera.carrera.nombre_carrera')
+                Tables\Columns\TextColumn::make('versionRecurso.nombre_version_recurso')
+                    ->numeric()
                     ->sortable(),
-                   
-                Tables\Columns\TextColumn::make('autores.user.name')
+                Tables\Columns\TextColumn::make('estadoRecurso.nombre_estado_recurso')
+                    ->numeric()
                     ->sortable(),
-
-
-                Tables\Columns\TextColumn::make('titulo_recurso')
+                Tables\Columns\TextColumn::make('enlace_descarga')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('fecha_subida')
+                Tables\Columns\TextColumn::make('descripcion')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -88,16 +84,17 @@ class RecursoResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\RecursoVersionRelationManager::class,
+            RelationManagers\ComentariosRelationManager::class,
+            RelationManagers\SugerenciasRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRecursos::route('/'),
-            'create' => Pages\CreateRecurso::route('/create'),
-            'edit' => Pages\EditRecurso::route('/{record}/edit'),
+            'index' => Pages\ListRecursoVersions::route('/'),
+            'create' => Pages\CreateRecursoVersion::route('/create'),
+            'edit' => Pages\EditRecursoVersion::route('/{record}/edit'),
         ];
     }
 }

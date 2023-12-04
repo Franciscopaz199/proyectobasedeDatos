@@ -28,4 +28,13 @@ class Carrera extends Model
     {
         return $this->belongsTo(Universidad::class, 'id_universidad');
     }
+
+    // relacion muchos a muchos con clase en la tabla clases_carreras
+    public function clases()
+    {
+        return $this->belongsToMany(Clase::class, 'clases_carreras', 'id_carrera', 'id_clase');
+    }
+
+
+    
 }

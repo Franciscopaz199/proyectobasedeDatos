@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
+use App\Filament\Resources\VersionRecursoResource\Pages;
+use App\Filament\Resources\VersionRecursoResource\RelationManagers;
+use App\Models\VersionRecurso;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,38 +13,20 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-use Filament\Forms\Components\Select;
-
-class UserResource extends Resource
+class VersionRecursoResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = VersionRecurso::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Usuarios';
+    protected static ?string $navigationGroup = 'Recursos';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Username')
+                Forms\Components\TextInput::make('nombre_version_recurso')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-
-                Select::make('id_persona')
-                    ->options(
-                        \App\Models\Persona::all()->pluck('nombre', 'id')
-                    )
-                    ->required(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(60),
             ]);
     }
 
@@ -52,13 +34,8 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('nombre_version_recurso')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -91,9 +68,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListVersionRecursos::route('/'),
+            'create' => Pages\CreateVersionRecurso::route('/create'),
+            'edit' => Pages\EditVersionRecurso::route('/{record}/edit'),
         ];
     }
 }

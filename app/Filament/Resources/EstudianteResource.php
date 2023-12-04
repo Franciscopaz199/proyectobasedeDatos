@@ -39,7 +39,7 @@ class EstudianteResource extends Resource
                     ->required(),
                 Select::make('id_user')
                     ->options(
-                        User::all()->pluck('id', 'id')
+                        User::all()->pluck('name', 'id')
                     )
                     ->required(),
                 Forms\Components\TextInput::make('numero_cuenta')
@@ -55,7 +55,7 @@ class EstudianteResource extends Resource
                 Tables\Columns\TextColumn::make('id_carrera_centro')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('id_user')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('numero_cuenta')
